@@ -36,3 +36,10 @@ This repository is organized into two distinct directories, each containing comp
 * **[Chapter 6: The Recurring Income Core](ecommerce_evolved/chapters/ch6_recurring_income.md)** — Continuity programs, subscription boxes, and subscriber retention strategies.
 * **[Chapter 7: Customer & Competitive Intelligence](ecommerce_evolved/chapters/ch7_customer_intelligence.md)** — Developing deep customer avatars and auditing competitor traffic and margins.
 * **[Chapter 8: Evolved Marketing Systems](ecommerce_evolved/chapters/ch8_evolved_marketing.md)** — Frontend customer acquisition campaigns vs. automated backend monetization flows.
+
+### 📂 [3. Shenzhen-to-Global DTC Exporter Playbook (Content Only)](sz_global_playbook/)
+* **[README.md](sz_global_playbook/README.md)** — Strategic introduction to cross-border DTC and the Shenzhen exporter's advantage.
+* **[Section 1: International Freight, HTS Classifications & FBA Inbound Strategies](sz_global_playbook/chapters/ch1_logistics_customs.md)** — Ocean vs. Air consolidation, customs clearing, and FBA stock placements.
+* **[Section 2: Multicultural Copywriting, Intent Translation & DTC Branding](sz_global_playbook/chapters/ch2_cultural_localization.md)** — Translating Chinese feature-centric listings into Western benefit-centric positioning.
+* **[Section 3: US Sales Tax Nexus, EU VAT Compliance & FX Risk Hedging](sz_global_playbook/chapters/ch3_finance_vat_nexus.md)** — Managing nexus thresholds, VAT, and RMB-to-USD currency hedging.
+* **[Section 4: DTC Shopify Brand Anchor vs. Amazon Volume Capture & TikTok Shop Accelerators](sz_global_playbook/chapters/ch4_omnichannel_scale.md)** — Building high-moat omnichannel international distribution engines.

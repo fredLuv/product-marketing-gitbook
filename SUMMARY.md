@@ -23,3 +23,10 @@
 * [Chapter 6: The Recurring Income Core](ecommerce_evolved/chapters/ch6_recurring_income.md)
 * [Chapter 7: Customer & Competitive Intelligence](ecommerce_evolved/chapters/ch7_customer_intelligence.md)
 * [Chapter 8: Evolved Marketing Systems](ecommerce_evolved/chapters/ch8_evolved_marketing.md)
+
+## 📂 Part 3: Shenzhen-to-Global DTC Exporter Playbook (Content Only)
+* [README Overview](sz_global_playbook/README.md)
+* [Section 1: International Freight, HTS & FBA Inbound](sz_global_playbook/chapters/ch1_logistics_customs.md)
+* [Section 2: Intent Translation & DTC Branding](sz_global_playbook/chapters/ch2_cultural_localization.md)
+* [Section 3: US Sales Tax Nexus & FX Risk Hedging](sz_global_playbook/chapters/ch3_finance_vat_nexus.md)
+* [Section 4: DTC Shopify Anchor vs. Amazon Volume](sz_global_playbook/chapters/ch4_omnichannel_scale.md)
