@@ -21,6 +21,20 @@ Acquiring new customers is an expensive, front-end cost center; keeping them is 
 
 ---
 
+## 📊 Database Segmentation: The RFM Cohort Matrix
+
+Rather than blasting your entire email list with the same promotion (which damages deliverability and spikes unsubscribe rates), operators use **RFM Metrics** to segment users programmatically:
+
+| RFM Score Segment | Segment Name | Customer Psychological Profile | Automated Klaviyo Flow Trigger |
+| :--- | :--- | :--- | :--- |
+| **5-5-5** | **Champions / VIPs** | Bought recently, buys frequently, spends highly. | VIP Loyalty Loop (Exclusive beta products, early access, zero discounts). |
+| **5-1-1** | **New Buyers** | Just placed their first order, low frequency. | Customer Welcome & Onboarding (Brand story, product tutorials, unboxing instructions). |
+| **3-4-4** | **Loyal Customers** | Buys frequently, but has not purchased in 60 days. | Replenishment / Cross-Sell (Recommend accessory or replacement part based on last purchase). |
+| **1-5-5** | **At-Risk VIPs** | High-lifetime value, but has not purchased in 180 days. | High-value Win-Back (Personal founder check-in email + high-incentive bundle). |
+| **1-1-1** | **Hibernating / Lost** | Single purchase years ago, zero engagement. | Sunset Flow (Unsubscribe automatically to protect domain email reputation). |
+
+---
+
 ## 🔁 The Lifecycle Flow Engine
 
 To build a high-margin retention engine, you must map the user's post-acquisition journey and programmatically target them based on dynamic behavior:
@@ -42,19 +56,11 @@ graph TD
     J -->|No| L[Post-Purchase Replenishment Loop - Day 30]
 ```
 
-### Klaviyo Trigger Flows Every Operator Must Launch:
-1.  **Welcome Series (Non-Buyers)**: Convert high-intent traffic from lead-capture forms by telling the brand's story, addressing product FAQs, and offering a low-friction welcome incentive.
-2.  **Cart & Checkout Abandonment (High-Intent)**: Capture users who left mid-checkout. Use dynamic line-item variables to inject the exact items left behind, along with direct links to rebuild their cart.
-3.  **Post-Purchase Upsell / Replenishment**: Triggered based on estimated product exhaustion (e.g., 30 or 60 days for consumables) or recommending highly complementary accessories for hard goods.
-4.  **Customer Win-Back**: Reactivate lapsed buyers by offering high-value bundles or checking in with customer satisfaction surveys after 90, 180, or 270 days of inactivity.
-
 ---
 
-## 💻 Production Reference: Klaviyo Event Trigger Pipeline (Node.js)
+## 💻 Production Reference: Robust Klaviyo Event Trigger Pipeline (Node.js)
 
-To recover lost revenue programmatically, you must sync your checkout database with Klaviyo. The script below handles a checkout abandonment trigger: it intercepts a user's session state, packages their cart payload into structured metadata, and securely dispatches a custom event (`Started Checkout`) to Klaviyo's Track API.
-
-This enables highly targeted, dynamic email recovery sequences utilizing nested shopping cart variables.
+To recover lost revenue programmatically, you must sync your checkout database with Klaviyo. The script below handles a checkout abandonment trigger: it intercepts a user's session state, package their cart payload into structured metadata, validates the parameters, and securely dispatches a custom event (`Started Checkout`) to Klaviyo's REST API, incorporating robust HTTPS connections and logging:
 
 ```javascript
 /**
@@ -66,34 +72,44 @@ const https = require('https');
 
 class KlaviyoTracker {
     constructor(privateApiKey) {
+        if (!privateApiKey || !privateApiKey.startsWith('pk_')) {
+            throw new Error("Invalid Klaviyo API Key structure. Must start with 'pk_'.");
+        }
         this.apiKey = privateApiKey;
         this.baseUrl = 'a.klaviyo.com';
     }
 
     /**
      * Dispatches an event to the Klaviyo Track API to trigger checkout abandonment flows.
-     * @param {Object} customerProfileData - Customer identity object (email or phone)
+     * @param {Object} customerProfileData - Customer identity object
      * @param {Object} cartPayload - Structured cart details and line items
      */
     async trackStartedCheckout(customerProfileData, cartPayload) {
-        console.log(`[Klaviyo Sync] Preparing Checkout Abandonment event for: ${customerProfileData.email}...`);
+        console.log(`[Klaviyo Tracker] Syncing event for email: ${customerProfileData.email}`);
 
+        // 1. Mandatory Input Assertions
+        if (!customerProfileData.email || !cartPayload.items || cartPayload.items.length === 0) {
+            console.error("[Klaviyo Sync Aborted] Missing email parameter or cart items.");
+            return { success: false, reason: "MISSING_MANDATORY_FIELDS" };
+        }
+
+        // 2. Format request payload to match modern Klaviyo Events v2024 REST Schema
         const requestBody = JSON.stringify({
             data: {
                 type: 'event',
                 attributes: {
                     properties: {
-                        $value: cartPayload.cartTotal, // Numeric total value of checkout session
+                        $value: parseFloat(cartPayload.cartTotal) || 0.00,
                         CurrencyCode: 'USD',
-                        CheckoutURL: cartPayload.checkoutRecoveryUrl,
+                        CheckoutURL: cartPayload.checkoutRecoveryUrl || '',
                         ItemNames: cartPayload.items.map(item => item.name),
                         Brands: cartPayload.items.map(item => item.brand || 'DTC Brand'),
                         Items: cartPayload.items.map(item => ({
                             ProductID: item.productId,
                             SKU: item.sku,
                             ProductName: item.name,
-                            Quantity: item.quantity,
-                            UnitPrice: item.price,
+                            Quantity: parseInt(item.quantity, 10),
+                            UnitPrice: parseFloat(item.price),
                             ImageURL: item.imageUrl
                         }))
                     },
@@ -101,7 +117,7 @@ class KlaviyoTracker {
                         data: {
                             type: 'metric',
                             attributes: {
-                                name: 'Started Checkout' // Matches Klaviyo default core trigger name
+                                name: 'Started Checkout'
                             }
                         }
                     },
@@ -110,9 +126,9 @@ class KlaviyoTracker {
                             type: 'profile',
                             attributes: {
                                 email: customerProfileData.email,
-                                first_name: customerProfileData.firstName,
-                                last_name: customerProfileData.lastName,
-                                phone_number: customerProfileData.phone
+                                first_name: customerProfileData.firstName || '',
+                                last_name: customerProfileData.lastName || '',
+                                phone_number: customerProfileData.phone || ''
                             }
                         }
                     }
@@ -127,14 +143,14 @@ class KlaviyoTracker {
             headers: {
                 'Authorization': `Klaviyo-API-Key ${this.apiKey}`,
                 'accept': 'application/vnd.api+json',
-                'revision': '2024-02-15', // Modern Klaviyo REST API version
+                'revision': '2024-02-15',
                 'content-type': 'application/vnd.api+json',
                 'content-length': Buffer.byteLength(requestBody)
             }
         };
 
         return new Promise((resolve, reject) => {
-            // Emulate secure REST API request to Klaviyo server
+            // 3. Initiate secure HTTP request round-trip
             const req = https.request(options, (res) => {
                 let responseData = '';
                 
@@ -143,17 +159,19 @@ class KlaviyoTracker {
                 });
 
                 res.on('end', () => {
-                    if (res.statusCode === 202 || res.statusCode === 201 || res.statusCode === 200) {
-                        console.log(`[Klaviyo Success] Event tracked successfully. Status: ${res.statusCode}`);
-                        resolve({ success: true, statusCode: res.statusCode });
+                    const status = res.statusCode;
+                    if (status >= 200 && status < 300) {
+                        console.log(`[Klaviyo API Success] Flow triggered successfully. Status: ${status}`);
+                        resolve({ success: true, statusCode: status });
                     } else {
-                        console.error(`[Klaviyo Error] Status: ${res.statusCode}, Raw: ${responseData}`);
-                        resolve({ success: false, statusCode: res.statusCode, error: responseData });
+                        console.error(`[Klaviyo API Error] HTTP status: ${status}, Response: ${responseData}`);
+                        resolve({ success: false, statusCode: status, error: responseData });
                     }
                 });
             });
 
             req.on('error', (err) => {
+                console.error(`[Klaviyo Network Exception] Connection failed: ${err.message}`);
                 reject(err);
             });
 
@@ -163,8 +181,8 @@ class KlaviyoTracker {
     }
 }
 
-// --- Dynamic Pipeline Simulation & Execution ---
-const klaviyoClient = new KlaviyoTracker('pk_e1b7829d8892d182bf9e023190df031c9a'); // Dummy secure API key
+// --- Run Tracker Simulation ---
+const klaviyoClient = new KlaviyoTracker('pk_e1b7829d8892d182bf9e023190df031c9a'); // Secure Mock Key
 
 const customerProfile = {
     email: 'buyer@example.com',
@@ -185,25 +203,16 @@ const abandonedCart = {
             quantity: 1,
             brand: 'Anker',
             imageUrl: 'https://myshop.com/images/charger-100w.jpg'
-        },
-        {
-            productId: 'PROD-0044',
-            sku: 'ANK-USB-CBLE',
-            name: 'Heavy-Duty 3ft Type-C Fast Charging Cable',
-            price: 39.99,
-            quantity: 1,
-            brand: 'Anker',
-            imageUrl: 'https://myshop.com/images/cable-3ft.jpg'
         }
     ]
 };
 
-// Execute tracking event
+// Execute tracking call
 klaviyoClient.trackStartedCheckout(customerProfile, abandonedCart)
     .then(result => {
         console.log('\n क्लैवियो इवेंट परिणाम (Klaviyo Track Event Result):');
         console.log(JSON.stringify(result, null, 2));
     })
     .catch(err => {
-        console.error('Execution Failed:', err);
+        console.error('Execution Exception:', err);
     });
