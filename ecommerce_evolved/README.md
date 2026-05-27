@@ -38,3 +38,6 @@ Tanner Larsson details 12 core business principles that every successful operato
 * **[Chapter 3: The Retention Engine & Klaviyo Automations](chapters/ch3_retention_loops.md)** — Cart abandonment and lifecycle email automation flows (+ Klaviyo SDK script).
 * **[Chapter 4: Inventory Economics & Cash-Flow Preservation](chapters/ch4_inventory_margins.md)** **(Crucial for Shenzhen Exporters)** — COGS, lead times, safety stocks, and cash conversions (+ Python Safety Stock Calculator).
 * **[Chapter 5: Conversion Rate Optimization (CRO) & Trust Stack](chapters/ch5_conversion_stack.md)** — Reduction of checkout friction; Cialdini's psychological triggers (+ JavaScript DOM Trust Signal Scanner).
+* **[Chapter 6: The Recurring Income Core](chapters/ch6_recurring_income.md)** — Continuity models, subscription boxes, and LTV amplification with zero code.
+* **[Chapter 7: Customer & Competitive Intelligence](chapters/ch7_customer_intelligence.md)** — Crafting detailed customer avatars and auditing competitor traffic and margins with zero code.
+* **[Chapter 8: Evolved Marketing Systems](chapters/ch8_evolved_marketing.md)** — Strategic front-end customer acquisition and dynamic back-end lifecycle monetization with zero code.

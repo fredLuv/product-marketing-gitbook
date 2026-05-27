@@ -33,3 +33,6 @@ This repository is organized into two distinct directories, each containing comp
 * **[Chapter 3: The Retention Engine & Klaviyo Automations](ecommerce_evolved/chapters/ch3_retention_loops.md)** — Cart abandonment and lifecycle email automation flows (+ Klaviyo SDK script).
 * **[Chapter 4: Inventory Economics & Cash-Flow Preservation](ecommerce_evolved/chapters/ch4_inventory_margins.md)** **(Crucial for Shenzhen Exporters)** — COGS, lead times, safety stocks, and cash conversions (+ Python Safety Stock Calculator).
 * **[Chapter 5: Conversion Rate Optimization (CRO) & Trust Stack](ecommerce_evolved/chapters/ch5_conversion_stack.md)** — Reduction of checkout friction; Cialdini's psychological triggers (+ JavaScript DOM Trust Signal Scanner).
+* **[Chapter 6: The Recurring Income Core](ecommerce_evolved/chapters/ch6_recurring_income.md)** — Continuity programs, subscription boxes, and subscriber retention strategies.
+* **[Chapter 7: Customer & Competitive Intelligence](ecommerce_evolved/chapters/ch7_customer_intelligence.md)** — Developing deep customer avatars and auditing competitor traffic and margins.
+* **[Chapter 8: Evolved Marketing Systems](ecommerce_evolved/chapters/ch8_evolved_marketing.md)** — Frontend customer acquisition campaigns vs. automated backend monetization flows.
