@@ -30,3 +30,6 @@
 * [Section 2: Intent Translation & DTC Branding](sz_global_playbook/chapters/ch2_cultural_localization.md)
 * [Section 3: US Sales Tax Nexus & FX Risk Hedging](sz_global_playbook/chapters/ch3_finance_vat_nexus.md)
 * [Section 4: DTC Shopify Anchor vs. Amazon Volume](sz_global_playbook/chapters/ch4_omnichannel_scale.md)
+
+## 📂 Applied Playbooks & Examples
+* [Case Study: Shopify DTC Profitability Engine](ecommerce_evolved/examples/shopify_dtc_profitability.md)

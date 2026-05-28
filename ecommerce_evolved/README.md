@@ -41,3 +41,8 @@ Tanner Larsson details 12 core business principles that every successful operato
 * **[Chapter 6: The Recurring Income Core](chapters/ch6_recurring_income.md)** — Continuity models, subscription boxes, and LTV amplification with zero code.
 * **[Chapter 7: Customer & Competitive Intelligence](chapters/ch7_customer_intelligence.md)** — Crafting detailed customer avatars and auditing competitor traffic and margins with zero code.
 * **[Chapter 8: Evolved Marketing Systems](chapters/ch8_evolved_marketing.md)** — Strategic front-end customer acquisition and dynamic back-end lifecycle monetization with zero code.
+
+---
+
+## 📂 Practical Case Studies & Applied Playbooks
+* **[Case Study: The Shopify DTC Profitability Engine](examples/shopify_dtc_profitability.md)** — Auditing landed costs, shipping overhead, return pipelines, and setting absolute margin safeguards with zero code.

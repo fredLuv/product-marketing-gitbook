@@ -43,3 +43,6 @@ This repository is organized into two distinct directories, each containing comp
 * **[Section 2: Multicultural Copywriting, Intent Translation & DTC Branding](sz_global_playbook/chapters/ch2_cultural_localization.md)** — Translating Chinese feature-centric listings into Western benefit-centric positioning.
 * **[Section 3: US Sales Tax Nexus, EU VAT Compliance & FX Risk Hedging](sz_global_playbook/chapters/ch3_finance_vat_nexus.md)** — Managing nexus thresholds, VAT, and RMB-to-USD currency hedging.
 * **[Section 4: DTC Shopify Brand Anchor vs. Amazon Volume Capture & TikTok Shop Accelerators](sz_global_playbook/chapters/ch4_omnichannel_scale.md)** — Building high-moat omnichannel international distribution engines.
+
+### 📂 Practical Examples & Applied Playbooks
+* **[Case Study: Shopify DTC Profitability Engine](ecommerce_evolved/examples/shopify_dtc_profitability.md)** — Fully auditing Shopify transaction fee stacks, pricing unit-economics, ad platforms, and setting absolute margin safeguards with zero code.
